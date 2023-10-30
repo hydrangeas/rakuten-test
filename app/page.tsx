@@ -1,3 +1,4 @@
+import Map from "@/components/Map";
 import React from "react";
 
 type Hotel = {
@@ -5,6 +6,8 @@ type Hotel = {
   hotelName: string;
   reviewAverage: number;
   reviewCount: number;
+  latitude: number;
+  longitude: number;
 };
 
 export default async function Home() {
@@ -22,6 +25,8 @@ export default async function Home() {
           hotelName: "",
           reviewAverage: 0,
           reviewCount: 0,
+          latitude: 0,
+          longitude: 0,
         };
         hotel.hotelNo = Number(internalHotel.hotel[0].hotelBasicInfo.hotelNo);
         hotel.hotelName = String(
@@ -33,11 +38,16 @@ export default async function Home() {
         hotel.reviewCount = Number(
           internalHotel.hotel[0].hotelBasicInfo.reviewCount
         );
+        hotel.latitude = Number(internalHotel.hotel[0].hotelBasicInfo.latitude);
+        hotel.longitude = Number(
+          internalHotel.hotel[0].hotelBasicInfo.longitude
+        );
         hotels.push(hotel);
       });
     });
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <Map />
       <table className="table-auto">
         <thead>
           <tr>
