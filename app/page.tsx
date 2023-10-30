@@ -1,20 +1,13 @@
 import Map from "@/components/Map";
 import React from "react";
-
-type Hotel = {
-  hotelNo: number;
-  hotelName: string;
-  reviewAverage: number;
-  reviewCount: number;
-  latitude: number;
-  longitude: number;
-};
+import { MarkerF } from "@react-google-maps/api";
+import { Hotel } from "@/types/Hotel";
 
 export default async function Home() {
   const appId = process.env.APP_ID;
   let hotels: Hotel[] = [];
   await fetch(
-    "https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426?format=json&largeClassCode=japan&middleClassCode=okinawa&smallClassCode=nahashi&applicationId=" +
+    "https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426?format=json&largeClassCode=japan&middleClassCode=okinawa&smallClassCode=nahashi&datumType=1&applicationId=" +
       appId
   )
     .then((response) => response.json())
@@ -47,7 +40,7 @@ export default async function Home() {
     });
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Map />
+      <Map hotels={hotels} />
       <table className="table-auto">
         <thead>
           <tr>

@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
+import { Hotel } from "@/types/Hotel";
 
 const containerStyle = {
   width: "100%",
@@ -9,11 +10,15 @@ const containerStyle = {
 };
 
 const center = {
-  lat: -3.745,
-  lng: -38.523,
+  lat: 35.182253007459444,
+  lng: 136.90534328438358,
 };
 
-function MyComponent() {
+type Props = {
+  hotels: Hotel[];
+};
+
+function MyComponent({ hotels }: Props) {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY as string,
@@ -37,12 +42,24 @@ function MyComponent() {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={10}
+      zoom={8}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
       {/* Child components, such as markers, info windows, etc. */}
-      <></>
+      <>
+        {hotels.map((hotel: Hotel) => (
+          <MarkerF
+            key={hotel.hotelNo}
+            position={{
+              lat: hotel.latitude,
+              lng: hotel.longitude,
+            }}
+          />
+        ))}
+        {/* <MarkerF position={{ lat: -34.397, lng: 150.644 }} /> */}
+        <MarkerF position={{ lat: 94.3619, lng: 45.966777 }} />
+      </>
     </GoogleMap>
   ) : (
     <></>
